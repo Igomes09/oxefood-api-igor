@@ -33,12 +33,12 @@ public class Produto extends EntidadeAuditavel  {
    private String descricao;
 
    @Column
-   private Integer tempoEntregaMinimo;
+   private String tempoEntregaMinimo;
 
    @Column
    private Double valorUnitario;
 
    @Column
-   private Integer tempoEntregaMaximo;
+   private String tempoEntregaMaximo;
 
 }

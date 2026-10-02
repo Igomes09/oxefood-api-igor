@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import br.edu.ifpe.oxefood.exception.ProdutoException;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -33,6 +34,11 @@ public class ProdutoService {
     public Produto cadastrar(ProdutoDTO dto) {
 
         Produto produto = build(dto);
+
+        if (produto.getValorUnitario() < 10) {
+        		throw new ProdutoException(ProdutoException.MSG_VALOR_MINIMO_PRODUTO);
+       	}
+
         produto.setHabilitado(true);
         return repository.save(produto);
     }
@@ -46,6 +52,16 @@ public class ProdutoService {
 
         return repository.findById(id).get(); // SELECT * FROM Produto WHERE id = ?
     }
+
+    @Transactional
+   public void remover(Long id) {
+
+        Produto produto = repository.findById(id).get();
+        produto.setHabilitado(false);
+
+        repository.save(produto);
+   }
+
 
 
 }

@@ -40,6 +40,6 @@ public class Empresa extends EntidadeAuditavel  {
    private String fone;
 
    @Column
-   private Double foneAlternativo;
+   private String foneAlternativo;
 
 }

@@ -20,21 +20,22 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Cliente extends EntidadeAuditavel  {
-    
+public class Cliente extends EntidadeAuditavel {
+
+    @Column(nullable = false, length = 100)
+    private String nome;
+
     @Column
-   private String nome;
+    private LocalDate dataNascimento;
 
-   @Column
-   private LocalDate dataNascimento;
+    @Column(unique = true)
 
-   @Column
-   private String cpf;
+    private String cpf;
 
-   @Column
-   private String foneCelular;
+    @Column
+    private String foneCelular;
 
-   @Column
-   private String foneFixo;
+    @Column
+    private String foneFixo;
 
 }

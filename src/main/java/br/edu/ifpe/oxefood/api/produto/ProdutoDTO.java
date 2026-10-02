@@ -16,9 +16,9 @@ public class ProdutoDTO {
 
    private String descricao;
 
-   private Integer tempoEntregaMinimo;
+   private String tempoEntregaMinimo;
 
    private Double valorUnitario;
 
-   private Integer tempoEntregaMaximo;
+   private String tempoEntregaMaximo;
 }

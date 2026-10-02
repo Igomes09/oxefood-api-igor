@@ -21,5 +21,5 @@ public class EmpresaDTO {
 
    private String fone;
 
-   private Double foneAlternativo;
+   private String foneAlternativo;
 }
