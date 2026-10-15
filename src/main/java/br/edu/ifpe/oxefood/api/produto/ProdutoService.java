@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import br.edu.ifpe.oxefood.api.categoriaproduto.CategoriaProdutoRepository;
 import br.edu.ifpe.oxefood.exception.ProdutoException;
 import jakarta.transaction.Transactional;
 
@@ -12,13 +13,27 @@ public class ProdutoService {
 
     private final ProdutoRepository repository;
 
-    public ProdutoService(ProdutoRepository repository) {
+    private final CategoriaProdutoRepository categoriaProdutoRepository;
+
+
+    public ProdutoService(ProdutoRepository repository, CategoriaProdutoRepository categoriaProdutoRepository) {
        this.repository = repository;
+       this.categoriaProdutoRepository = categoriaProdutoRepository;
     }
 
     public Produto build(ProdutoDTO dto) {
 
-        Produto produto = new Produto();
+        Produto produto = null;
+
+       if (dto.getId() == null) { //Montado para o cadastro
+           produto = new Produto();
+       } else { //Consultado para a alteração
+           produto = repository.findById(dto.getId()).get();
+       }
+
+
+        produto.setCategoria(categoriaProdutoRepository.findById(dto.getIdCategoria()).get());
+
         produto.setCodigo(dto.getCodigo());
         produto.setTitulo(dto.getTitulo());
         produto.setDescricao(dto.getDescricao());

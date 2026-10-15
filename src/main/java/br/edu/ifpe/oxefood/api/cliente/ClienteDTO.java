@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor 
 public class ClienteDTO {
 
     private Long id;

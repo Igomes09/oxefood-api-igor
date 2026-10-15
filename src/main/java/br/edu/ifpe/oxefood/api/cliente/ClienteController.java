@@ -58,6 +58,28 @@ public class ClienteController {
         return ResponseEntity.noContent().build();
    }
 
+     @PostMapping("/endereco/{clienteId}")
+   public ResponseEntity<EnderecoCliente> adicionarEnderecoCliente(@PathVariable("clienteId") Long clienteId, @RequestBody @Valid EnderecoClienteDTO dto) {
+
+       EnderecoCliente endereco = clienteService.adicionarEnderecoCliente(clienteId, dto);
+       return ResponseEntity.status(HttpStatus.CREATED).body(endereco);
+   }
+
+   @PutMapping("/endereco/{enderecoId}")
+   public ResponseEntity<EnderecoCliente> atualizarEnderecoCliente(@PathVariable("enderecoId") Long enderecoId, @RequestBody EnderecoClienteDTO dto) {
+
+       EnderecoCliente endereco = clienteService.atualizarEnderecoCliente(enderecoId, dto);
+       return ResponseEntity.ok(endereco);
+   }
+
+   @DeleteMapping("/endereco/{enderecoId}")
+   public ResponseEntity<Void> removerEnderecoCliente(@PathVariable("enderecoId") Long enderecoId) {
+
+       clienteService.removerEnderecoCliente(enderecoId);
+       return ResponseEntity.noContent().build();
+   }
+
+
 
     
 
