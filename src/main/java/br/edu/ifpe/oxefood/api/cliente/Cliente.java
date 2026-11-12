@@ -5,11 +5,14 @@ import java.util.List;
 
 import org.hibernate.annotations.SQLRestriction;
 
+import br.edu.ifpe.oxefood.api.acesso.Usuario;
 import br.edu.ifpe.oxefood.util.EntidadeAuditavel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +27,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Cliente extends EntidadeAuditavel {
+
+    @OneToOne
+    @JoinColumn(nullable = false)
+    private Usuario usuario;
 
     @OneToMany(mappedBy = "cliente", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<EnderecoCliente> enderecos;
