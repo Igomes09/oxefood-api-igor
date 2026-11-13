@@ -9,6 +9,7 @@ import br.edu.ifpe.oxefood.api.acesso.Perfil;
 import br.edu.ifpe.oxefood.api.acesso.PerfilRepository;
 import br.edu.ifpe.oxefood.api.acesso.Usuario;
 import br.edu.ifpe.oxefood.api.acesso.UsuarioService;
+import br.edu.ifpe.oxefood.util.EmailSender;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -18,12 +19,15 @@ public class ClienteService {
     private final EnderecoClienteRepository enderecoClienteRepository;
     private final UsuarioService usuarioService;
     private final PerfilRepository perfilUsuarioRepository;
+    private final EmailSender emailSender;
 
-    public ClienteService(ClienteRepository repository, EnderecoClienteRepository enderecoClienteRepository, UsuarioService usuarioService, PerfilRepository perfilUsuarioRepository) {
+    public ClienteService(ClienteRepository repository, EnderecoClienteRepository enderecoClienteRepository,
+            UsuarioService usuarioService, PerfilRepository perfilUsuarioRepository, EmailSender emailSender) {
         this.repository = repository;
         this.enderecoClienteRepository = enderecoClienteRepository;
         this.usuarioService = usuarioService;
         this.perfilUsuarioRepository = perfilUsuarioRepository;
+        this.emailSender = emailSender;
 
     }
 
@@ -40,7 +44,6 @@ public class ClienteService {
             usuario.setPassword(dto.getPassword());
             usuario.getRoles().add(new Perfil(Perfil.ROLE_CLIENTE));
             cliente.setUsuario(usuario);
-
 
         } else { // Consultado para a alteração
 
@@ -77,7 +80,7 @@ public class ClienteService {
     }
 
     @Transactional
-    public Cliente cadastrar(ClienteDTO dto) {
+    public Cliente cadastrar(ClienteDTO dto, Usuario usuarioLogado) {
 
         Cliente cliente = build(dto);
 
@@ -88,14 +91,19 @@ public class ClienteService {
             perfilUsuarioRepository.save(perfil);
         }
 
+        cliente.setCriadoPor(usuarioLogado);
         cliente.setHabilitado(true);
-        return repository.save(cliente); // Insert
+        Cliente clienteSalvo = repository.save(cliente);
+        emailSender.enviarEmailConfirmacaoCadastroCliente(clienteSalvo);
+        return clienteSalvo;
+ // Insert
     }
 
     @Transactional
-    public Cliente atualizar(ClienteDTO dto) {
+    public Cliente atualizar(ClienteDTO dto, Usuario usuarioLogado) {
 
         Cliente cliente = build(dto);
+        cliente.setUltimaModificacaoPor(usuarioLogado);
         return repository.save(cliente);
     } // Update
 

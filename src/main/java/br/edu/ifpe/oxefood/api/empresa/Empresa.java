@@ -3,9 +3,12 @@ package br.edu.ifpe.oxefood.api.empresa;
 
 import org.hibernate.annotations.SQLRestriction;
 
+import br.edu.ifpe.oxefood.api.acesso.Usuario;
 import br.edu.ifpe.oxefood.util.EntidadeAuditavel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,27 +22,31 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Empresa extends EntidadeAuditavel  {
-    
+public class Empresa extends EntidadeAuditavel {
+
+    @OneToOne
+    @JoinColumn(nullable = false)
+    private Usuario usuario;
+
     @Column
-   private String site;
+    private String site;
 
-   @Column
-   private String cnpj;
+    @Column
+    private String cnpj;
 
-   @Column
-   private String inscricaoEstadual;
+    @Column
+    private String inscricaoEstadual;
 
-   @Column
-   private String nomeEmpresarial;
+    @Column
+    private String nomeEmpresarial;
 
-   @Column
-   private String nomeFantasia;
+    @Column
+    private String nomeFantasia;
 
-   @Column
-   private String fone;
+    @Column
+    private String fone;
 
-   @Column
-   private String foneAlternativo;
+    @Column
+    private String foneAlternativo;
 
 }

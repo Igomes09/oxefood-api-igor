@@ -12,8 +12,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/produto")
+@Tag(
+   name = "API Produto",
+   description = "API responsável pelos serviços de produto no sistema"
+)
+
 public class ProdutoController {
 
     private final ProdutoService produtoService;
@@ -21,6 +29,12 @@ public class ProdutoController {
     public ProdutoController(ProdutoService service) {
         this.produtoService = service;
     }
+
+    @Operation(
+       summary = "Serviço responsável por salvar um produto no sistema.",
+       description = "Exemplo de descrição de um endpoint responsável por inserir um produto no sistema."
+   )
+
 
     @PostMapping
     public ResponseEntity<Produto> cadastrar(@RequestBody ProdutoDTO dto) {

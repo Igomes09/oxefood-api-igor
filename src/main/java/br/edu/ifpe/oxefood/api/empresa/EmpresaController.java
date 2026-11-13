@@ -12,8 +12,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/empresa")
+@Tag(
+   name = "API Empresa",
+   description = "API responsável pelos serviços da empresa no sistema"
+)
 public class EmpresaController {
 
     private final EmpresaService empresaService;
@@ -21,6 +28,11 @@ public class EmpresaController {
     public EmpresaController(EmpresaService service) {
         this.empresaService = service;
     }
+
+     @Operation(
+       summary = "Serviço responsável por salvar uma empresa no sistema.",
+       description = "Exemplo de descrição de um endpoint responsável por inserir uma empresa no sistema."
+   )
 
     @PostMapping
     public ResponseEntity<Empresa> cadastrar(@RequestBody EmpresaDTO dto) {
